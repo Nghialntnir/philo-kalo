@@ -1,6 +1,9 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.nlnt.philokalo_server.model;
 
-import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +15,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,9 +28,11 @@ import java.util.Date;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByFullName", query = "SELECT u FROM User u WHERE u.fullName = :fullName"),
+    @NamedQuery(name = "User.findByIsArtist", query = "SELECT u FROM User u WHERE u.isArtist = :isArtist"),
     @NamedQuery(name = "User.findByIsActive", query = "SELECT u FROM User u WHERE u.isActive = :isActive"),
     @NamedQuery(name = "User.findByCreatedAt", query = "SELECT u FROM User u WHERE u.createdAt = :createdAt"),
     @NamedQuery(name = "User.findByUpdatedAt", query = "SELECT u FROM User u WHERE u.updatedAt = :updatedAt")})
@@ -34,21 +40,29 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private String id;
-    @Basic(optional = false)
-    @Column(name = "username")
-    private String username;
-    @Basic(optional = false)
-    @Column(name = "password")
-    private String password;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Column(name = "email")
     private String email;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
+    @Size(max = 255)
+    @Column(name = "full_name")
+    private String fullName;
     @Lob
+    @Size(max = 65535)
     @Column(name = "avatar_url")
     private String avatarUrl;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "bio")
+    private String bio;
+    @Column(name = "is_artist")
+    private Boolean isArtist;
     @Column(name = "is_active")
     private Boolean isActive;
     @Column(name = "created_at")
@@ -65,8 +79,9 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(String id, String username, String password) {
+    public User(String id, String email, String username, String password) {
         this.id = id;
+        this.email = email;
         this.username = username;
         this.password = password;
     }
@@ -77,6 +92,14 @@ public class User implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -95,12 +118,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getAvatarUrl() {
@@ -109,6 +132,22 @@ public class User implements Serializable {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Boolean getIsArtist() {
+        return isArtist;
+    }
+
+    public void setIsArtist(Boolean isArtist) {
+        this.isArtist = isArtist;
     }
 
     public Boolean getIsActive() {
@@ -159,5 +198,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.nlnt.philokalo_server.model.User[ id=" + id + " ]";
     }
-    
+
 }
