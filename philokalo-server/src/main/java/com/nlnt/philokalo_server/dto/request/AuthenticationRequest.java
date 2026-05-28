@@ -1,6 +1,5 @@
-package com.nlnt.philokalo_server.dto.response;
+package com.nlnt.philokalo_server.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,14 +12,12 @@ import lombok.experimental.FieldDefaults;
  * @author nghia
  */
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse<T> {
+public class AuthenticationRequest {
 
-    int code = 1000;
-    String message;
-    T result;
+    String username;
+    String password;
 }

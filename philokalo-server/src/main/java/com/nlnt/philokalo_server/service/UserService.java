@@ -1,7 +1,8 @@
 package com.nlnt.philokalo_server.service;
 
 import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
-import com.nlnt.philokalo_server.model.User;
+import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
+import com.nlnt.philokalo_server.dto.response.UserResponse;
 
 /**
  *
@@ -9,5 +10,9 @@ import com.nlnt.philokalo_server.model.User;
  */
 public interface UserService {
 
-    public User createUser(UserCreateRequest request);
+    public UserResponse getUser(String userId);
+
+    public UserResponse createUser(UserCreateRequest request);
+
+    public UserResponse updateUser(String userId, UserUpdateRequest request);
 }

@@ -1,8 +1,8 @@
 package com.nlnt.philokalo_server.dto.response;
 
-import java.util.Date;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -12,14 +12,11 @@ import lombok.experimental.FieldDefaults;
  * @author nghia
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreateResponse {
+public class AuthenticationResponse {
 
-    private String username;
-    private String password;
-    private String email;
-    private String avatarUrl;
-    private Date createdAt;
+    boolean isAuthenticated;
 }

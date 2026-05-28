@@ -16,16 +16,12 @@ import lombok.experimental.FieldDefaults;
  * @author nghia
  */
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserCreateRequest {
+public class UserUpdateRequest {
 
-    @NotBlank(message = "USERNAME_REQUIRED")
-    @Size(min = 3, max = 50, message = "USERNAME_INVALID")
-    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "USERNAME_PATTERN_INVALID")
-    String username;
     @NotBlank(message = "PASSWORD_REQUIRED")
     @Size(min = 8, max = 255, message = "PASSWORD_INVALID")
     @Pattern(
