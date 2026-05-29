@@ -1,4 +1,4 @@
-package com.nlnt.philokalo_server.dto.response;
+package com.nlnt.philokalo_server.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
+public class IntrospectRequest {
+
     String token;
-    boolean isAuthenticated;
 }

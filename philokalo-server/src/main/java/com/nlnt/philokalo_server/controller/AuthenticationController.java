@@ -1,9 +1,13 @@
 package com.nlnt.philokalo_server.controller;
 
+import com.nimbusds.jose.JOSEException;
 import com.nlnt.philokalo_server.dto.request.AuthenticationRequest;
+import com.nlnt.philokalo_server.dto.request.IntrospectRequest;
 import com.nlnt.philokalo_server.dto.response.ApiResponse;
 import com.nlnt.philokalo_server.dto.response.AuthenticationResponse;
+import com.nlnt.philokalo_server.dto.response.IntrospectResponse;
 import com.nlnt.philokalo_server.service.AuthenticationService;
+import java.text.ParseException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -24,11 +28,16 @@ public class AuthenticationController {
 
     AuthenticationService authenticationService;
 
-    @PostMapping("/sign-in")
+    @PostMapping("/token")
     ApiResponse<AuthenticationResponse> signIn(@RequestBody AuthenticationRequest request) {
-        boolean result = authenticationService.authenticate(request);
         return ApiResponse.<AuthenticationResponse>builder()
-                .result(AuthenticationResponse.builder().isAuthenticated(result).build()).build();
+                .result(authenticationService.authenticate(request)).build();
+    }
+
+    @PostMapping("/introspect")
+    ApiResponse<IntrospectResponse> signIn(@RequestBody IntrospectRequest request) throws JOSEException, ParseException {
+        return ApiResponse.<IntrospectResponse>builder()
+                .result(authenticationService.introspect(request)).build();
     }
 
 }

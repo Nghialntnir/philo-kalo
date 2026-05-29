@@ -7,6 +7,8 @@ package com.nlnt.philokalo_server.exception;
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized exception"),
     NOT_FOUND_MESSAGE_KEY(0000, "Not found message key"),
+    // Auth
+    UNAUTHENTICATED(999, "Unauthenticatied"),
     // Username
     USERNAME_EXISTED(1001, "Username already existed"),
     USER_NOT_FOUND(1002, "User not found"),
