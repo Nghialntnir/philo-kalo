@@ -8,11 +8,11 @@ import com.nlnt.philokalo_server.exception.ErrorCode;
 import com.nlnt.philokalo_server.mapper.UserMapper;
 import com.nlnt.philokalo_server.model.User;
 import com.nlnt.philokalo_server.repository.UserRepository;
+import com.nlnt.philokalo_server.security.SecurityConfig;
 import com.nlnt.philokalo_server.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,10 +26,9 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImp implements UserService {
 
-    @Autowired
     UserRepository userRepository;
-    @Autowired
     UserMapper userMapper;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse getUser(String userId) {
@@ -45,9 +44,8 @@ public class UserServiceImp implements UserService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(13);
         User user = userMapper.toUser(request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(this.passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
@@ -55,8 +53,8 @@ public class UserServiceImp implements UserService {
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND));
-        userRepository.save(user);
         userMapper.updateUser(user, request);
+        userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
 
