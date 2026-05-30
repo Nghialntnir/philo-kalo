@@ -4,14 +4,17 @@
  */
 package com.nlnt.philokalo_server.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -21,6 +24,8 @@ import java.util.Date;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -28,7 +33,9 @@ import lombok.Builder;
  */
 @Entity
 @Builder
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "user")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -43,6 +50,29 @@ import lombok.Builder;
     @NamedQuery(name = "User.findByUpdatedAt", query = "SELECT u FROM User u WHERE u.updatedAt = :updatedAt")})
 public class User implements Serializable {
 
+    @Size(max = 255)
+    @Column(name = "full_name")
+    private String fullName;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "bio")
+    private String bio;
+    @Size(max = 5)
+    @Column(name = "role")
+    private String role;
+    @Lob
+    @Size(max = 1073741824)
+    @Column(name = "roles")
+    private String roles;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<UserRole> userRoleSet;
+    @OneToMany(mappedBy = "assignedBy", fetch = FetchType.EAGER)
+    private Set<UserRole> userRoleSet1;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -55,17 +85,6 @@ public class User implements Serializable {
     private String username;
     @Column(name = "password")
     private String password;
-    @Size(max = 255)
-    @Column(name = "full_name")
-    private String fullName;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "avatar_url")
-    private String avatarUrl;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "bio")
-    private String bio;
     @Column(name = "is_artist")
     private Boolean isArtist;
     @Column(name = "is_active")
@@ -76,109 +95,7 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    private Set<String> roles;
-
-    public User() {
-    }
-
-    public User(String id) {
-        this.id = id;
-    }
-
-    public User(String id, String email, String username, String password) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public Boolean getIsArtist() {
-        return isArtist;
-    }
-
-    public void setIsArtist(Boolean isArtist) {
-        this.isArtist = isArtist;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    private Set<String> roless;
 
     @Override
     public int hashCode() {
@@ -203,20 +120,6 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.nlnt.philokalo_server.model.User[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the roles
-     */
-    public Set<String> getRoles() {
-        return roles;
-    }
-
-    /**
-     * @param role the roles to set
-     */
-    public void setRoles(Set<String> role) {
-        this.roles = role;
     }
 
 }
