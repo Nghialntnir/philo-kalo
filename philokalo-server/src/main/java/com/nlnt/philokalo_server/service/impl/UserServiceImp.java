@@ -2,18 +2,21 @@ package com.nlnt.philokalo_server.service.impl;
 
 import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
 import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
+import com.nlnt.philokalo_server.dto.response.PageResponse;
 import com.nlnt.philokalo_server.dto.response.UserResponse;
 import com.nlnt.philokalo_server.exception.AppException;
 import com.nlnt.philokalo_server.exception.ErrorCode;
 import com.nlnt.philokalo_server.mapper.UserMapper;
 import com.nlnt.philokalo_server.model.User;
 import com.nlnt.philokalo_server.repository.UserRepository;
-import com.nlnt.philokalo_server.security.SecurityConfig;
 import com.nlnt.philokalo_server.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +32,24 @@ public class UserServiceImp implements UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+
+    @Override
+    public PageResponse<UserResponse> getAllUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size,
+                Sort.by("createdAt").descending());
+        Page<User> pageData = userRepository.findAll(pageable);
+
+        return PageResponse.<UserResponse>builder()
+                .content(pageData.getContent()
+                        .stream()
+                        .map(userMapper::toUserResponse)
+                        .toList())
+                .currentPage(page)
+                .pageSize(size)
+                .totalPages(pageData.getTotalPages())
+                .totalElements(pageData.getTotalElements())
+                .build();
+    }
 
     @Override
     public UserResponse getUser(String userId) {

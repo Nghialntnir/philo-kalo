@@ -2,6 +2,7 @@ package com.nlnt.philokalo_server.service;
 
 import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
 import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
+import com.nlnt.philokalo_server.dto.response.PageResponse;
 import com.nlnt.philokalo_server.dto.response.UserResponse;
 
 /**
@@ -10,6 +11,8 @@ import com.nlnt.philokalo_server.dto.response.UserResponse;
  */
 public interface UserService {
 
+    public PageResponse<UserResponse> getAllUsers(int page, int size);
+    
     public UserResponse getUser(String userId);
 
     public UserResponse createUser(UserCreateRequest request);
