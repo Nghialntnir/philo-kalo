@@ -16,12 +16,14 @@ import com.nlnt.philokalo_server.dto.response.AuthenticationResponse;
 import com.nlnt.philokalo_server.dto.response.IntrospectResponse;
 import com.nlnt.philokalo_server.exception.AppException;
 import com.nlnt.philokalo_server.exception.ErrorCode;
+import com.nlnt.philokalo_server.model.User;
 import com.nlnt.philokalo_server.repository.UserRepository;
 import com.nlnt.philokalo_server.service.AuthenticationService;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.StringJoiner;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -30,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 /**
  *
@@ -71,7 +74,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
-        var token = generateToken(request.getUsername());
+        var token = generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -79,15 +82,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-    private String generateToken(String username) {
+    private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jWTClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(user.getUsername())
                 .issuer("philokalo.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
+                .claim("userId", user.getId())
+                .claim("scope", buildScope(user))
                 .build();
 
         Payload payload = new Payload(jWTClaimsSet.toJSONObject());
@@ -99,5 +104,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             log.error("Uncategorized exception: ", ex);
             throw new RuntimeException(ex);
         }
+    }
+
+    private String buildScope(User user) {
+        StringJoiner stringJoiner = new StringJoiner("");
+        if (!CollectionUtils.isEmpty(user.getRoles())) {
+            user.getRoles().forEach(stringJoiner::add);
+        }
+        return stringJoiner.toString();
     }
 }

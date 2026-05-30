@@ -18,12 +18,17 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 /**
  *
  * @author nghia
  */
 @Entity
+@Builder
+@AllArgsConstructor
 @Table(name = "user")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
@@ -71,6 +76,7 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    private Set<String> roles;
 
     public User() {
     }
@@ -197,6 +203,20 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.nlnt.philokalo_server.model.User[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the roles
+     */
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    /**
+     * @param role the roles to set
+     */
+    public void setRoles(Set<String> role) {
+        this.roles = role;
     }
 
 }

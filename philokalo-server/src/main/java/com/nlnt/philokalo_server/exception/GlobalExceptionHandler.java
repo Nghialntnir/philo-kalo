@@ -1,6 +1,7 @@
 package com.nlnt.philokalo_server.exception;
 
 import com.nlnt.philokalo_server.dto.response.ApiResponse;
+import org.springframework.security.access.AccessDeniedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,7 +31,20 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setCode(ex.getErrorCode().getCode());
         apiResponse.setMessage(ex.getMessage());
-        return ResponseEntity.badRequest().body(apiResponse);
+        return ResponseEntity
+                .status(ex.getErrorCode().getStatusCode())
+                .body(apiResponse);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<ApiResponse> handlerAccessDeniedException(AccessDeniedException ex) {
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
+                ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build()
+        );
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class) // Throw exception của Dto

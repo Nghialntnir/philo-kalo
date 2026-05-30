@@ -11,8 +11,10 @@ import com.nlnt.philokalo_server.dto.response.UserResponse;
  */
 public interface UserService {
 
+    public UserResponse getMyInfo();
+
     public PageResponse<UserResponse> getAllUsers(int page, int size);
-    
+
     public UserResponse getUser(String userId);
 
     public UserResponse createUser(UserCreateRequest request);
