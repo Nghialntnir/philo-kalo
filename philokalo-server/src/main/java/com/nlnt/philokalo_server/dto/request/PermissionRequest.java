@@ -1,6 +1,7 @@
-package com.nlnt.philokalo_server.dto.response;
+package com.nlnt.philokalo_server.dto.request;
 
-import java.util.Set;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,13 +18,10 @@ import lombok.experimental.FieldDefaults;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
+public class PermissionRequest {
 
-    String id;
-    String username;
-    String email;
-    String avatarUrl;
-    String fullName;
-    String bio;
-    Set<String> roless;
+    @NotBlank
+    @Size(max = 50, message = "SIZE_ERROR")
+    String name;
+    String description;
 }

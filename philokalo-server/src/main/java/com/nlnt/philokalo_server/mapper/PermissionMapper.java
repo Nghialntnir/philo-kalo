@@ -1,9 +1,8 @@
 package com.nlnt.philokalo_server.mapper;
 
-import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
-import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
-import com.nlnt.philokalo_server.dto.response.UserResponse;
-import com.nlnt.philokalo_server.model.User;
+import com.nlnt.philokalo_server.dto.request.PermissionRequest;
+import com.nlnt.philokalo_server.dto.response.PermissionResponse;
+import com.nlnt.philokalo_server.model.Permission;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
@@ -12,11 +11,12 @@ import org.mapstruct.MappingTarget;
  * @author nghia
  */
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface PermissionMapper {
 
-    User toUser(UserCreateRequest request);
+    Permission toPermission(PermissionRequest request);
 
-    UserResponse toUserResponse(User user);
+    PermissionResponse toPermissionResponse(Permission permission);
 
-    void updateUser(@MappingTarget User user, UserUpdateRequest request);
+    void updatePermission(@MappingTarget Permission permission, PermissionRequest request);
+
 }

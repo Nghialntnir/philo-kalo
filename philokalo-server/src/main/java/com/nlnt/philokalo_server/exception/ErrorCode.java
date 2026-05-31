@@ -28,8 +28,15 @@ public enum ErrorCode {
     // EMAIL
     EMAIL_EXISTED(1009, "User's email already existed", HttpStatus.CONFLICT),
     EMAIL_REQUIRED(1010, "Email required", HttpStatus.BAD_REQUEST),
-    EMAIL_INVALID(1011, "Invalid email format", HttpStatus.BAD_REQUEST);
-
+    EMAIL_INVALID(1011, "Invalid email format", HttpStatus.BAD_REQUEST),
+    // Permission
+    PERMISSION_NAME_EXISTED(1012, "Permission has been named", HttpStatus.BAD_REQUEST),
+    PERMISSION_NOT_EXISTS(1014, "Permission not exists", HttpStatus.BAD_REQUEST),
+    // Role
+    ROLE_NAME_EXISTED(1015, "Role has been named", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_EXISTS(1016, "Role not exists", HttpStatus.BAD_REQUEST),
+    // Size
+    SIZE_ERROR(1013, "Max size is 50", HttpStatus.BAD_REQUEST);
     private int code;
     private String message;
     private HttpStatusCode statusCode;

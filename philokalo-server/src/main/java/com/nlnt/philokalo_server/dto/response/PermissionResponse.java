@@ -1,6 +1,5 @@
 package com.nlnt.philokalo_server.dto.response;
 
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,13 +16,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
+public class PermissionResponse {
 
-    String id;
-    String username;
-    String email;
-    String avatarUrl;
-    String fullName;
-    String bio;
-    Set<String> roless;
+    String name;
+    String description;
 }

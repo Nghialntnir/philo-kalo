@@ -53,11 +53,9 @@ CREATE TABLE IF NOT EXISTS `role_permission`(
 	`role_id` 		char(36) NOT NULL,
     `permission_id` char(36) NOT NULL,
     `created_at` 	DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `updated_at`	DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	FOREIGN KEY (`role_id`) REFERENCES `role`(`id`) 			ON DELETE CASCADE, -- Xóa role thì xóa role_permission
 	FOREIGN KEY (`permission_id`) REFERENCES `permission`(`id`) ON DELETE NO ACTION, -- Xóa role_permission trước thì mới xóa role
 	PRIMARY KEY (`role_id`, `permission_id`)
 );
 -- --------------------------------------------------------------------------------------------------------------
-CREATE TABLE `artwork` (
-
-);

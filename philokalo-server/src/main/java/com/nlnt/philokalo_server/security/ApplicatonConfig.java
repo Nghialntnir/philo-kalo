@@ -26,14 +26,13 @@ public class ApplicatonConfig {
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return agrs -> {
             if (userRepository.findByUsername("admin").isEmpty()) {
-                var roles = new HashSet<String>();
-                roles.add(Role.ADMIN.name());
-
+                var roless = new HashSet<String>();
+                roless.add(Role.ADMIN.name());
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("admin"))
                         .email("example999@gmail.com")
-                        .roles(roles)
+                        .roless(roless)
                         .build();
                 userRepository.save(user);
                 log.warn("admin user has been created with default password: admin, please change it!");

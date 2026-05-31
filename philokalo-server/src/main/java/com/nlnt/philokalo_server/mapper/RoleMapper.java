@@ -1,10 +1,10 @@
 package com.nlnt.philokalo_server.mapper;
 
-import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
-import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
-import com.nlnt.philokalo_server.dto.response.UserResponse;
-import com.nlnt.philokalo_server.model.User;
+import com.nlnt.philokalo_server.dto.request.RoleRequest;
+import com.nlnt.philokalo_server.dto.response.RoleResponse;
+import com.nlnt.philokalo_server.model.Role;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 /**
@@ -12,11 +12,14 @@ import org.mapstruct.MappingTarget;
  * @author nghia
  */
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface RoleMapper {
 
-    User toUser(UserCreateRequest request);
+    @Mapping(target = "userRoleSet", ignore = true)
+    @Mapping(target = "rolePermissionSet", ignore = true)
+    Role toRole(RoleRequest request);
 
-    UserResponse toUserResponse(User user);
+    RoleResponse toRoleResponse(Role role);
 
-    void updateUser(@MappingTarget User user, UserUpdateRequest request);
+    void updateRole(@MappingTarget Role role, RoleRequest request);
+
 }
