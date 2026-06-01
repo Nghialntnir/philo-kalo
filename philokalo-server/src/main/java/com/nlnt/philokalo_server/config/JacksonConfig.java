@@ -1,4 +1,4 @@
-package com.nlnt.philokalo_server.util;
+package com.nlnt.philokalo_server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

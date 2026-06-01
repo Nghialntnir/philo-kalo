@@ -19,6 +19,7 @@ import java.util.Set;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class UserServiceImp implements UserService {
 
     UserRepository userRepository;
@@ -88,15 +90,19 @@ public class UserServiceImp implements UserService {
         User user = userMapper.toUser(request);
         user.setPassword(this.passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
+        User asignUser = userRepository.findByUsername(user.getUsername()).orElseThrow(()
+                -> new AppException(ErrorCode.USER_NOT_FOUND));
         Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
+        log.info(String.format("User: %s\nUser Assign: %s\nRole: %s", user, asignUser, role));
         UserRole userRole = new UserRole();
+        Set<UserRole> userRoles = new HashSet<>();
         userRole.setUserRolePK(new UserRolePK(user.getId(), role.getId()));
         userRole.setUser(user);
         userRole.setRole(role);
-        userRole.setAssignedBy(user);
-        user.setUserRoleSet(Set.of(userRole));
-        userRepository.save(user);
+        userRole.setAssignedBy(asignUser);
+        userRoles.add(userRole);
+        user.setUserRoleSet(userRoles);
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
@@ -109,8 +115,6 @@ public class UserServiceImp implements UserService {
         if (request.getPassword() != null && !request.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
-        userRepository.save(user);
-
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User asignUser = userRepository.findByUsername(username).orElseThrow(()
                 -> new AppException(ErrorCode.USER_NOT_FOUND));

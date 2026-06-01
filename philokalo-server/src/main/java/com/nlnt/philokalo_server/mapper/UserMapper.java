@@ -1,7 +1,9 @@
 package com.nlnt.philokalo_server.mapper;
 
+import com.nlnt.philokalo_server.config.GlobalMapperConfig;
 import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
 import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
+import com.nlnt.philokalo_server.dto.response.PermissionSimpleResponse;
 import com.nlnt.philokalo_server.dto.response.RoleSimpleResponse;
 import com.nlnt.philokalo_server.dto.response.UserResponse;
 import com.nlnt.philokalo_server.model.User;
@@ -16,7 +18,7 @@ import org.mapstruct.MappingTarget;
  *
  * @author nghia
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", config = GlobalMapperConfig.class)
 public interface UserMapper {
 
     User toUser(UserCreateRequest request);
@@ -33,6 +35,15 @@ public interface UserMapper {
         return user.getUserRoleSet().stream()
                 .map(ur -> RoleSimpleResponse.builder()
                 .name(ur.getRole().getName())
+                .permissions(
+                        ur.getRole().getRolePermissionSet() == null
+                        ? new HashSet<>()
+                        : ur.getRole().getRolePermissionSet().stream()
+                                .map(rp -> PermissionSimpleResponse.builder()
+                                .name(rp.getPermission().getName())
+                                .build())
+                                .collect(Collectors.toSet())
+                )
                 .build())
                 .collect(Collectors.toSet());
     }

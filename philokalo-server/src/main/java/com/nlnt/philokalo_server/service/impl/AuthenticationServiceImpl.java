@@ -90,7 +90,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .issuer("philokalo.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
+                        Instant.now().plus(5, ChronoUnit.DAYS).toEpochMilli()))
                 .claim("userId", user.getId())
                 .claim("scope", buildScope(user))
                 .build();

@@ -35,6 +35,7 @@ public enum ErrorCode {
     // Role
     ROLE_NAME_EXISTED(1015, "Role has been named", HttpStatus.BAD_REQUEST),
     ROLE_NOT_EXISTS(1016, "Role not exists", HttpStatus.BAD_REQUEST),
+    ROLE_NAME_REQUIRED(1017, "Role name required", HttpStatus.BAD_REQUEST),
     // Size
     SIZE_ERROR(1013, "Max size is 50", HttpStatus.BAD_REQUEST);
     private int code;

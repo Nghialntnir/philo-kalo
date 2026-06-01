@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleRequest {
 
-    @NotBlank
+    @NotBlank(message = "ROLE_NAME_REQUIRED")
     @Size(max = 50, message = "SIZE_ERROR")
     String name;
     String description;
