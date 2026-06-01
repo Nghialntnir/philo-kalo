@@ -1,6 +1,7 @@
 package com.nlnt.philokalo_server.repository;
 
 import com.nlnt.philokalo_server.model.Permission;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -10,4 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PermissionRepository extends JpaRepository<Permission, String> {
 
     boolean existsByName(String name);
+
+    Optional<Permission> findByName(String name);
 }

@@ -25,5 +25,5 @@ public class RoleRequest {
     @Size(max = 50, message = "SIZE_ERROR")
     String name;
     String description;
-    Set<String> permissions;
+    Set<String> permissionIds;
 }

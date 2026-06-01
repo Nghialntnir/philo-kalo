@@ -107,9 +107,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private String buildScope(User user) {
-        StringJoiner stringJoiner = new StringJoiner("");
-        if (!CollectionUtils.isEmpty(user.getRoless())) {
-            user.getRoless().forEach(stringJoiner::add);
+        StringJoiner stringJoiner = new StringJoiner(" ");
+        if (!CollectionUtils.isEmpty(user.getUserRoleSet())) {
+            user.getUserRoleSet().forEach(userRole -> {
+                // Thêm role name vào scope
+                stringJoiner.add("ROLE_" + userRole.getRole().getName());
+                // Thêm permissions của role đó vào scope
+                if (!CollectionUtils.isEmpty(userRole.getRole().getRolePermissionSet())) {
+                    userRole.getRole().getRolePermissionSet().forEach(rolePermission
+                            -> stringJoiner.add(rolePermission.getPermission().getName())
+                    );
+                }
+            });
         }
         return stringJoiner.toString();
     }

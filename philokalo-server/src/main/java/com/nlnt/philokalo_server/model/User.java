@@ -80,13 +80,6 @@ public class User implements Serializable {
     @Size(max = 65535)
     @Column(name = "bio")
     private String bio;
-    @Size(max = 5)
-    @Column(name = "role")
-    private String role;
-    @Lob
-    @Size(max = 1073741824)
-    @Column(name = "roles")
-    private String roles;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
@@ -95,6 +88,5 @@ public class User implements Serializable {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "assignedBy", fetch = FetchType.EAGER)
     private Set<UserRole> userRoleSet1;
-    private Set<String> roless;
 
 }

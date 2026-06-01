@@ -1,5 +1,6 @@
 package com.nlnt.philokalo_server.dto.response;
 
+import java.time.Instant;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,7 @@ public class UserResponse {
     String avatarUrl;
     String fullName;
     String bio;
-    Set<String> roless;
+    Instant createdAt;
+    Instant updatedAt;
+    Set<RoleSimpleResponse> roles;
 }

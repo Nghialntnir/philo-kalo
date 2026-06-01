@@ -1,5 +1,6 @@
 package com.nlnt.philokalo_server.dto.response;
 
+import java.time.Instant;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleResponse {
 
+    String id;
     String name;
     String description;
+    Instant createdAt;
+    Instant updatedAt;
     Set<PermissionResponse> permissions;
 }

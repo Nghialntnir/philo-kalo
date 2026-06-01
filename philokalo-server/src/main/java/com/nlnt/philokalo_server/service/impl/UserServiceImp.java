@@ -4,14 +4,18 @@ import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
 import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
 import com.nlnt.philokalo_server.dto.response.PageResponse;
 import com.nlnt.philokalo_server.dto.response.UserResponse;
-import com.nlnt.philokalo_server.enums.Role;
 import com.nlnt.philokalo_server.exception.AppException;
 import com.nlnt.philokalo_server.exception.ErrorCode;
 import com.nlnt.philokalo_server.mapper.UserMapper;
+import com.nlnt.philokalo_server.model.Role;
 import com.nlnt.philokalo_server.model.User;
+import com.nlnt.philokalo_server.model.UserRole;
+import com.nlnt.philokalo_server.model.UserRolePK;
+import com.nlnt.philokalo_server.repository.RoleRepository;
 import com.nlnt.philokalo_server.repository.UserRepository;
 import com.nlnt.philokalo_server.service.UserService;
 import java.util.HashSet;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -35,6 +39,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImp implements UserService {
 
     UserRepository userRepository;
+    RoleRepository roleRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
@@ -82,11 +87,16 @@ public class UserServiceImp implements UserService {
         }
         User user = userMapper.toUser(request);
         user.setPassword(this.passwordEncoder.encode(request.getPassword()));
-
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        //user.setRoles(roles);
-
+        userRepository.save(user);
+        Role role = roleRepository.findByName("USER")
+                .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
+        UserRole userRole = new UserRole();
+        userRole.setUserRolePK(new UserRolePK(user.getId(), role.getId()));
+        userRole.setUser(user);
+        userRole.setRole(role);
+        userRole.setAssignedBy(user);
+        user.setUserRoleSet(Set.of(userRole));
+        userRepository.save(user);
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
@@ -94,8 +104,36 @@ public class UserServiceImp implements UserService {
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         userMapper.updateUser(user, request);
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
         userRepository.save(user);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User asignUser = userRepository.findByUsername(username).orElseThrow(()
+                -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        if (request.getRoleIds() != null && !request.getRoleIds().isEmpty()) {
+            Set<UserRole> userRoles = new HashSet<>();
+
+            for (String roleId : request.getRoleIds()) {
+                Role role = roleRepository.findById(roleId)
+                        .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
+
+                UserRolePK pk = new UserRolePK(user.getId(), roleId);
+                UserRole userRole = new UserRole();
+                userRole.setUserRolePK(pk);
+                userRole.setUser(user);
+                userRole.setRole(role);
+                userRole.setAssignedBy(asignUser);
+                userRoles.add(userRole);
+            }
+
+            user.setUserRoleSet(userRoles);
+            userRepository.save(user);
+        }
         return userMapper.toUserResponse(user);
     }
 

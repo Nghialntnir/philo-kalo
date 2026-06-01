@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "permission")
@@ -70,6 +72,6 @@ public class Permission implements Serializable {
     Instant updatedAt;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permission", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "permission", fetch = FetchType.LAZY)
     private Set<RolePermission> rolePermissionSet;
 }
