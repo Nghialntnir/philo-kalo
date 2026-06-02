@@ -3,6 +3,7 @@ package com.nlnt.philokalo_server.controller;
 import com.nimbusds.jose.JOSEException;
 import com.nlnt.philokalo_server.dto.request.AuthenticationRequest;
 import com.nlnt.philokalo_server.dto.request.IntrospectRequest;
+import com.nlnt.philokalo_server.dto.request.LogoutRequest;
 import com.nlnt.philokalo_server.dto.response.ApiResponse;
 import com.nlnt.philokalo_server.dto.response.AuthenticationResponse;
 import com.nlnt.philokalo_server.dto.response.IntrospectResponse;
@@ -38,6 +39,13 @@ public class AuthenticationController {
     ApiResponse<IntrospectResponse> signIn(@RequestBody IntrospectRequest request) throws JOSEException, ParseException {
         return ApiResponse.<IntrospectResponse>builder()
                 .result(authenticationService.introspect(request)).build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> signIn(@RequestBody LogoutRequest request) throws JOSEException, ParseException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
+                .build();
     }
 
 }

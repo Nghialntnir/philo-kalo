@@ -59,3 +59,8 @@ CREATE TABLE IF NOT EXISTS `role_permission`(
 	PRIMARY KEY (`role_id`, `permission_id`)
 );
 -- --------------------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `invalidated_token`(
+	`id` 		char(36) NOT NULL,
+	`expiry_time` DATETIME
+);
+-- --------------------------------------------------------------------------------------------------------------
