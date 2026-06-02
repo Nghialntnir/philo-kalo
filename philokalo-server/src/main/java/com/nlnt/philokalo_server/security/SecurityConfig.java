@@ -30,7 +30,8 @@ public class SecurityConfig {
     @Value("${app.jwt.signer-key}")
     private String signerKey;
     private final String[] PUBLIC_ENDPOINTS = {"/users/sign-up",
-        "/auth/token", "/auth/introspect"
+        "/auth/token", "/auth/introspect",
+        "/error"
     };
 
     @Bean

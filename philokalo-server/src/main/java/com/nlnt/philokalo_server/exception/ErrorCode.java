@@ -28,7 +28,7 @@ public enum ErrorCode {
     // EMAIL
     EMAIL_EXISTED(1009, "User's email already existed", HttpStatus.CONFLICT),
     EMAIL_REQUIRED(1010, "Email required", HttpStatus.BAD_REQUEST),
-    EMAIL_INVALID(1011, "Invalid email format", HttpStatus.BAD_REQUEST),
+    EMAIL_INVALID(1011, "Invalid email and at least {min} characters", HttpStatus.BAD_REQUEST),
     // Permission
     PERMISSION_NAME_EXISTED(1012, "Permission has been named", HttpStatus.BAD_REQUEST),
     PERMISSION_NOT_EXISTS(1014, "Permission not exists", HttpStatus.BAD_REQUEST),

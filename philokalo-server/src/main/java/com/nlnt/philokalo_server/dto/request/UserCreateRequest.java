@@ -1,5 +1,6 @@
 package com.nlnt.philokalo_server.dto.request;
 
+import com.nlnt.philokalo_server.validator.PatternConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -35,6 +36,7 @@ public class UserCreateRequest {
     String password;
     @NotBlank(message = "EMAIL_REQUIRED")
     @Email(message = "EMAIL_INVALID")
+    @PatternConstraint(min = 8, max = 255, message = "EMAIL_INVALID")
     String email;
     String avatarUrl;
     String fullName;
