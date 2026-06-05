@@ -4,6 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import com.nlnt.philokalo_server.dto.request.AuthenticationRequest;
 import com.nlnt.philokalo_server.dto.request.IntrospectRequest;
 import com.nlnt.philokalo_server.dto.request.LogoutRequest;
+import com.nlnt.philokalo_server.dto.request.RefreshRequest;
 import com.nlnt.philokalo_server.dto.response.AuthenticationResponse;
 import com.nlnt.philokalo_server.dto.response.IntrospectResponse;
 import java.text.ParseException;
@@ -13,6 +14,8 @@ import java.text.ParseException;
  * @author nghia
  */
 public interface AuthenticationService {
+
+    AuthenticationResponse refreshToken(RefreshRequest request) throws JOSEException, ParseException;
 
     IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException;
 

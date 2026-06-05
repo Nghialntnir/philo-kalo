@@ -13,6 +13,7 @@ import com.nimbusds.jwt.SignedJWT;
 import com.nlnt.philokalo_server.dto.request.AuthenticationRequest;
 import com.nlnt.philokalo_server.dto.request.IntrospectRequest;
 import com.nlnt.philokalo_server.dto.request.LogoutRequest;
+import com.nlnt.philokalo_server.dto.request.RefreshRequest;
 import com.nlnt.philokalo_server.dto.response.AuthenticationResponse;
 import com.nlnt.philokalo_server.dto.response.IntrospectResponse;
 import com.nlnt.philokalo_server.exception.AppException;
@@ -54,6 +55,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     UserRepository userRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
     PasswordEncoder passwordEncoder;
+
+    @Override
+    public AuthenticationResponse refreshToken(RefreshRequest request) throws JOSEException, ParseException {
+        var signJWT = verifyToken(request.getToken());
+        var jti = signJWT.getJWTClaimsSet().getJWTID();
+        var expiryTime = signJWT.getJWTClaimsSet().getExpirationTime();
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jti)
+                .expiryTime(expiryTime)
+                .build();
+        invalidatedTokenRepository.save(invalidatedToken);
+
+        var username = signJWT.getJWTClaimsSet().getSubject();
+        var user = userRepository.findByUsername(username).orElseThrow(
+                () -> new AppException(ErrorCode.UNAUTHENTICATED));
+        var token = generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .isAuthenticated(true)
+                .build();
+    }
 
     @Override
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {

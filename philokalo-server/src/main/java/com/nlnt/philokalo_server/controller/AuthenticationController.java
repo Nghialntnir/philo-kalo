@@ -4,6 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import com.nlnt.philokalo_server.dto.request.AuthenticationRequest;
 import com.nlnt.philokalo_server.dto.request.IntrospectRequest;
 import com.nlnt.philokalo_server.dto.request.LogoutRequest;
+import com.nlnt.philokalo_server.dto.request.RefreshRequest;
 import com.nlnt.philokalo_server.dto.response.ApiResponse;
 import com.nlnt.philokalo_server.dto.response.AuthenticationResponse;
 import com.nlnt.philokalo_server.dto.response.IntrospectResponse;
@@ -48,4 +49,9 @@ public class AuthenticationController {
                 .build();
     }
 
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> refresh(@RequestBody RefreshRequest request) throws JOSEException, ParseException {
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(authenticationService.refreshToken(request)).build();
+    }
 }
