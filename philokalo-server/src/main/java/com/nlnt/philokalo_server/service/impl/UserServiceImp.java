@@ -80,6 +80,7 @@ public class UserServiceImp implements UserService {
         return userMapper.toUserResponse(user);
     }
 
+    @Override
     public UserResponse createUser(UserCreateRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USERNAME_EXISTED);
@@ -107,6 +108,8 @@ public class UserServiceImp implements UserService {
         return userMapper.toUserResponse(user);
     }
 
+    @Override
+    @PreAuthorize("#userId == authentication.token.claims['userId'] or hasRole('ROLE_ADMIN')")
     public UserResponse updateUser(String userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -141,4 +144,11 @@ public class UserServiceImp implements UserService {
         return userMapper.toUserResponse(user);
     }
 
+    @Override
+    @PreAuthorize("#userId == authentication.token.claims['userId'] or hasRole('ROLE_ADMIN')")
+    public void deleteUser(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND));
+        userRepository.delete(user);
+    }
 }

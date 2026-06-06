@@ -20,4 +20,6 @@ public interface UserService {
     public UserResponse createUser(UserCreateRequest request);
 
     public UserResponse updateUser(String userId, UserUpdateRequest request);
+
+    public void deleteUser(String userId);
 }
