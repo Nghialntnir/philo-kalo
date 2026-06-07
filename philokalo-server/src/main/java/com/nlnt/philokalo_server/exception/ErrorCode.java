@@ -37,7 +37,14 @@ public enum ErrorCode {
     ROLE_NOT_EXISTS(1016, "Role not exists", HttpStatus.BAD_REQUEST),
     ROLE_NAME_REQUIRED(1017, "Role name required", HttpStatus.BAD_REQUEST),
     // Size
-    SIZE_ERROR(1013, "Max size is 50", HttpStatus.BAD_REQUEST);
+    SIZE_ERROR(1013, "Max size is 50", HttpStatus.BAD_REQUEST),
+    // File
+    FILE_EMPTY(1020, "File can not blank", HttpStatus.BAD_REQUEST),
+    FILE_TYPE_NOT_SUPPORTED(1021, "Type not supported", HttpStatus.BAD_REQUEST),
+    FILE_TOO_LARGE(1022, "File to large (< 10MB)", HttpStatus.BAD_REQUEST),
+    UPLOAD_FAILED(1023, "Upload fail", HttpStatus.BAD_REQUEST),
+    DELETE_FAILED(1024, "Delete fail", HttpStatus.BAD_REQUEST);
+
     private int code;
     private String message;
     private HttpStatusCode statusCode;

@@ -29,6 +29,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -48,8 +49,10 @@ public class UserServiceImp implements UserService {
     @Override
     public UserResponse getMyInfo() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         User user = userRepository.findByUsername(username).orElseThrow(()
                 -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         return userMapper.toUserResponse(user);
     }
 
@@ -58,6 +61,7 @@ public class UserServiceImp implements UserService {
     public PageResponse<UserResponse> getAllUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size,
                 Sort.by("createdAt").descending());
+
         Page<User> pageData = userRepository.findAll(pageable);
 
         return PageResponse.<UserResponse>builder()
@@ -77,25 +81,31 @@ public class UserServiceImp implements UserService {
     public UserResponse getUser(String userId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         return userMapper.toUserResponse(user);
     }
 
     @Override
+    @Transactional
     public UserResponse createUser(UserCreateRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USERNAME_EXISTED);
         }
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
+
         User user = userMapper.toUser(request);
         user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+        user.setAvatarUrl("https://res.cloudinary.com/philokalo-cloud/image/upload/v1780748653/of5wft3j3yvcqucxy13h.png");
         userRepository.save(user);
         User asignUser = userRepository.findByUsername(user.getUsername()).orElseThrow(()
                 -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
-        log.info(String.format("User: %s\nUser Assign: %s\nRole: %s", user, asignUser, role));
+
         UserRole userRole = new UserRole();
         Set<UserRole> userRoles = new HashSet<>();
         userRole.setUserRolePK(new UserRolePK(user.getId(), role.getId()));
@@ -104,6 +114,7 @@ public class UserServiceImp implements UserService {
         userRole.setAssignedBy(asignUser);
         userRoles.add(userRole);
         user.setUserRoleSet(userRoles);
+
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
@@ -118,6 +129,7 @@ public class UserServiceImp implements UserService {
         if (request.getPassword() != null && !request.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User asignUser = userRepository.findByUsername(username).orElseThrow(()
                 -> new AppException(ErrorCode.USER_NOT_FOUND));
@@ -149,6 +161,7 @@ public class UserServiceImp implements UserService {
     public void deleteUser(String userId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         userRepository.delete(user);
     }
 }

@@ -55,11 +55,13 @@ public class UserController {
                 .build();
     }
 
-    @PostMapping("/sign-up")
-    ApiResponse<UserResponse> signup(@RequestBody @Valid UserCreateRequest request) {
-        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(userService.createUser(request));
-        return apiResponse;
+    @PostMapping( "/sign-up")
+    ApiResponse<UserResponse> signup(
+            @RequestBody @Valid UserCreateRequest request) {
+
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.createUser(request))
+                .build();
     }
 
     @PatchMapping("/{userId}")
