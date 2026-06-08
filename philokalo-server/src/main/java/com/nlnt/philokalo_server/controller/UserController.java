@@ -1,13 +1,7 @@
 package com.nlnt.philokalo_server.controller;
 
-import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
-import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
-import com.nlnt.philokalo_server.dto.response.ApiResponse;
-import com.nlnt.philokalo_server.dto.response.PageResponse;
-import com.nlnt.philokalo_server.dto.response.UserResponse;
-import com.nlnt.philokalo_server.service.UserService;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nlnt.philokalo_server.dto.request.UserCreateRequest;
+import com.nlnt.philokalo_server.dto.request.UserUpdateRequest;
+import com.nlnt.philokalo_server.dto.response.ApiResponse;
+import com.nlnt.philokalo_server.dto.response.PageResponse;
+import com.nlnt.philokalo_server.dto.response.UserResponse;
+import com.nlnt.philokalo_server.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -34,12 +37,14 @@ public class UserController {
 
     @GetMapping("/mine")
     ApiResponse<UserResponse> getMyInfo() {
-        return ApiResponse.<UserResponse>builder().result(userService.getMyInfo()).build();
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getMyInfo())
+                .build();
     }
 
     @GetMapping
-    ApiResponse<PageResponse<UserResponse>> getAllUsers(@RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
+    ApiResponse<PageResponse<UserResponse>> getAllUsers(
+            @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         return ApiResponse.<PageResponse<UserResponse>>builder()
                 .result(userService.getAllUsers(page, size))
                 .build();
@@ -55,9 +60,8 @@ public class UserController {
                 .build();
     }
 
-    @PostMapping( "/sign-up")
-    ApiResponse<UserResponse> signup(
-            @RequestBody @Valid UserCreateRequest request) {
+    @PostMapping("/sign-up")
+    ApiResponse<UserResponse> signup(@RequestBody @Valid UserCreateRequest request) {
 
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))
@@ -74,9 +78,6 @@ public class UserController {
     @DeleteMapping("/{userId}")
     ApiResponse<Void> deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
-        return ApiResponse.<Void>builder()
-                .message("User deleted successfully")
-                .build();
+        return ApiResponse.<Void>builder().message("User deleted successfully").build();
     }
-
 }

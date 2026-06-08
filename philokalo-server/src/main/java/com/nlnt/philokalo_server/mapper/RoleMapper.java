@@ -1,5 +1,13 @@
 package com.nlnt.philokalo_server.mapper;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 import com.nlnt.philokalo_server.config.GlobalMapperConfig;
 import com.nlnt.philokalo_server.dto.request.RoleRequest;
 import com.nlnt.philokalo_server.dto.response.PermissionResponse;
@@ -7,12 +15,6 @@ import com.nlnt.philokalo_server.dto.response.PermissionSimpleResponse;
 import com.nlnt.philokalo_server.dto.response.RoleResponse;
 import com.nlnt.philokalo_server.dto.response.RoleSimpleResponse;
 import com.nlnt.philokalo_server.model.Role;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 /**
  *
@@ -39,12 +41,12 @@ public interface RoleMapper {
         }
         return role.getRolePermissionSet().stream()
                 .map(rp -> PermissionResponse.builder()
-                .id(rp.getPermission().getId())
-                .name(rp.getPermission().getName())
-                .description(rp.getPermission().getDescription())
-                .createdAt(rp.getCreatedAt())
-                .updatedAt(rp.getUpdatedAt())
-                .build())
+                        .id(rp.getPermission().getId())
+                        .name(rp.getPermission().getName())
+                        .description(rp.getPermission().getDescription())
+                        .createdAt(rp.getCreatedAt())
+                        .updatedAt(rp.getUpdatedAt())
+                        .build())
                 .collect(Collectors.toSet());
     }
 
@@ -54,8 +56,8 @@ public interface RoleMapper {
         }
         return role.getRolePermissionSet().stream()
                 .map(rp -> PermissionSimpleResponse.builder()
-                .name(rp.getPermission().getName())
-                .build())
+                        .name(rp.getPermission().getName())
+                        .build())
                 .collect(Collectors.toSet());
     }
 }

@@ -1,8 +1,10 @@
 package com.nlnt.philokalo_server.dto.request;
 
+import java.util.Set;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +26,7 @@ public class RoleRequest {
     @NotBlank(message = "ROLE_NAME_REQUIRED")
     @Size(max = 50, message = "SIZE_ERROR")
     String name;
+
     String description;
     Set<String> permissionIds;
 }

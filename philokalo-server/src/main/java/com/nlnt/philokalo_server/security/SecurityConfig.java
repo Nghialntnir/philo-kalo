@@ -21,9 +21,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/users/sign-up",
-        "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh",
-        "/error"
+    private final String[] PUBLIC_ENDPOINTS = {
+        "/users/sign-up", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/error"
     };
 
     @Autowired
@@ -31,11 +30,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(request
-                -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated());
-        http.oauth2ResourceServer(auth2 -> auth2.jwt(jwtConfigurer
-                -> jwtConfigurer.decoder(customJwtDecoder)
+        http.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
+        http.oauth2ResourceServer(auth2 -> auth2.jwt(jwtConfigurer -> jwtConfigurer
+                        .decoder(customJwtDecoder)
                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
         http.csrf(AbstractHttpConfigurer::disable);
@@ -50,5 +50,4 @@ public class SecurityConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
     }
-
 }

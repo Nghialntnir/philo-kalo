@@ -1,5 +1,11 @@
 package com.nlnt.philokalo_server.service.impl;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
 import com.nlnt.philokalo_server.dto.request.PermissionRequest;
 import com.nlnt.philokalo_server.dto.response.PermissionResponse;
 import com.nlnt.philokalo_server.exception.AppException;
@@ -8,13 +14,10 @@ import com.nlnt.philokalo_server.mapper.PermissionMapper;
 import com.nlnt.philokalo_server.model.Permission;
 import com.nlnt.philokalo_server.repository.PermissionRepository;
 import com.nlnt.philokalo_server.service.PermissionService;
-import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -47,8 +50,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public PermissionResponse updatePermission(String permissionId, PermissionRequest request) {
-        Permission permission = permissionRepository.findById(permissionId).orElseThrow(()
-                -> new AppException(ErrorCode.PERMISSION_NOT_EXISTS));
+        Permission permission = permissionRepository
+                .findById(permissionId)
+                .orElseThrow(() -> new AppException(ErrorCode.PERMISSION_NOT_EXISTS));
         permissionMapper.updatePermission(permission, request);
         permissionRepository.save(permission);
         return permissionMapper.toPermissionResponse(permission);
@@ -56,9 +60,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public void deletePermission(String permissionId) {
-        Permission permission = permissionRepository.findById(permissionId).orElseThrow(()
-                -> new AppException(ErrorCode.PERMISSION_NOT_EXISTS));
+        Permission permission = permissionRepository
+                .findById(permissionId)
+                .orElseThrow(() -> new AppException(ErrorCode.PERMISSION_NOT_EXISTS));
         permissionRepository.delete(permission);
     }
-
 }

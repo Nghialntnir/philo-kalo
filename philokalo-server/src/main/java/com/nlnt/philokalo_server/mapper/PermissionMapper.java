@@ -1,11 +1,12 @@
 package com.nlnt.philokalo_server.mapper;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+
 import com.nlnt.philokalo_server.config.GlobalMapperConfig;
 import com.nlnt.philokalo_server.dto.request.PermissionRequest;
 import com.nlnt.philokalo_server.dto.response.PermissionResponse;
 import com.nlnt.philokalo_server.model.Permission;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
 
 /**
  *
@@ -19,5 +20,4 @@ public interface PermissionMapper {
     PermissionResponse toPermissionResponse(Permission permission);
 
     void updatePermission(@MappingTarget Permission permission, PermissionRequest request);
-
 }

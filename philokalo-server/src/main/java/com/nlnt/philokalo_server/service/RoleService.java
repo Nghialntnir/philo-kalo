@@ -1,8 +1,9 @@
 package com.nlnt.philokalo_server.service;
 
+import java.util.List;
+
 import com.nlnt.philokalo_server.dto.request.RoleRequest;
 import com.nlnt.philokalo_server.dto.response.RoleResponse;
-import java.util.List;
 
 /**
  *
@@ -17,5 +18,4 @@ public interface RoleService {
     RoleResponse updateRole(String roleId, RoleRequest request);
 
     void deleteRole(String roleId);
-
 }

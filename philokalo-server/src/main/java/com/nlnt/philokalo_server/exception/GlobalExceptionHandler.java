@@ -1,15 +1,19 @@
 package com.nlnt.philokalo_server.exception;
 
-import com.nlnt.philokalo_server.dto.response.ApiResponse;
-import jakarta.validation.ConstraintViolation;
 import java.util.Map;
 import java.util.Objects;
-import org.springframework.security.access.AccessDeniedException;
-import lombok.extern.slf4j.Slf4j;
+
+import jakarta.validation.ConstraintViolation;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.nlnt.philokalo_server.dto.response.ApiResponse;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -17,7 +21,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  */
 @Slf4j
 @ControllerAdvice
-// Controller -> Throw exception -> Spring interception -> @ControllerAdvice -> Tìm @ExceptionHanlder phù hợp -> trả về respone tự định nghĩa
+// Controller -> Throw exception -> Spring interception -> @ControllerAdvice -> Tìm @ExceptionHanlder phù hợp -> trả về
+// respone tự định nghĩa
 public class GlobalExceptionHandler {
 
     private static final String MIN_ATTRIBUTE = "min";
@@ -36,20 +41,17 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setCode(ex.getErrorCode().getCode());
         apiResponse.setMessage(ex.getMessage());
-        return ResponseEntity
-                .status(ex.getErrorCode().getStatusCode())
-                .body(apiResponse);
+        return ResponseEntity.status(ex.getErrorCode().getStatusCode()).body(apiResponse);
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
     ResponseEntity<ApiResponse> handlerAccessDeniedException(AccessDeniedException ex) {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
-        return ResponseEntity.status(errorCode.getStatusCode()).body(
-                ApiResponse.builder()
+        return ResponseEntity.status(errorCode.getStatusCode())
+                .body(ApiResponse.builder()
                         .code(errorCode.getCode())
                         .message(errorCode.getMessage())
-                        .build()
-        );
+                        .build());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class) // Throw exception của Dto
@@ -60,8 +62,8 @@ public class GlobalExceptionHandler {
         Map<String, Object> attributes = null;
         try {
             errorCode = ErrorCode.valueOf(enumKey);
-            var constrainViolation = ex.getBindingResult()
-                    .getAllErrors().getFirst().unwrap(ConstraintViolation.class);
+            var constrainViolation =
+                    ex.getBindingResult().getAllErrors().getFirst().unwrap(ConstraintViolation.class);
             attributes = constrainViolation.getConstraintDescriptor().getAttributes();
             log.info(attributes.toString());
         } catch (IllegalArgumentException illegalArgumentException) {
@@ -69,9 +71,10 @@ public class GlobalExceptionHandler {
         }
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(Objects.nonNull(attributes) 
-                ? mapAttribute(errorCode.getMessage(), attributes)
-                : errorCode.getMessage());
+        apiResponse.setMessage(
+                Objects.nonNull(attributes)
+                        ? mapAttribute(errorCode.getMessage(), attributes)
+                        : errorCode.getMessage());
         return ResponseEntity.badRequest().body(apiResponse);
     }
 

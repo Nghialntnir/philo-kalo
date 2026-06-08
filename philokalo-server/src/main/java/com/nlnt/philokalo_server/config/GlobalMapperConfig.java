@@ -8,6 +8,4 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
  * @author nghia
  */
 @MapperConfig(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface GlobalMapperConfig {
-    
-}
+public interface GlobalMapperConfig {}

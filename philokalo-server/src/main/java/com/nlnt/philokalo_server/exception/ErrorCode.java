@@ -1,8 +1,9 @@
 package com.nlnt.philokalo_server.exception;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
+import lombok.Getter;
 
 /**
  *
@@ -20,11 +21,15 @@ public enum ErrorCode {
     USER_NOT_FOUND(1002, "User not found", HttpStatus.NOT_FOUND),
     USERNAME_REQUIRED(1003, "Username required", HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(1004, "Username must be at least 3 characters and max 50 characteres", HttpStatus.BAD_REQUEST),
-    USERNAME_PATTERN_INVALID(1005, "Only letters, numbers, and underscores are allowed — no special characters", HttpStatus.BAD_REQUEST),
+    USERNAME_PATTERN_INVALID(
+            1005, "Only letters, numbers, and underscores are allowed — no special characters", HttpStatus.BAD_REQUEST),
     // Password
     PASSWORD_INVALID(1006, "Password must be at least 8 characters and max 255 characters", HttpStatus.BAD_REQUEST),
     PASSWORD_REQUIRED(1007, "Password required", HttpStatus.BAD_REQUEST),
-    PASSWORD_PATTERN_INVALID(1008, "Password at least: 1 lowercase letter, 1 uppercase letter, 1 number, 1 special character", HttpStatus.BAD_REQUEST),
+    PASSWORD_PATTERN_INVALID(
+            1008,
+            "Password at least: 1 lowercase letter, 1 uppercase letter, 1 number, 1 special character",
+            HttpStatus.BAD_REQUEST),
     // EMAIL
     EMAIL_EXISTED(1009, "User's email already existed", HttpStatus.CONFLICT),
     EMAIL_REQUIRED(1010, "Email required", HttpStatus.BAD_REQUEST),
@@ -54,5 +59,4 @@ public enum ErrorCode {
         this.message = message;
         this.statusCode = statusCode;
     }
-
 }

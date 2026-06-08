@@ -11,7 +11,7 @@ public class PatternValidator implements ConstraintValidator<PatternConstraint, 
 
     private int min;
     private int max;
-    
+
     @Override
     public void initialize(PatternConstraint constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
@@ -29,5 +29,4 @@ public class PatternValidator implements ConstraintValidator<PatternConstraint, 
         }
         return t.matches("^[a-zA-Z0-9@.]*$");
     }
-
 }

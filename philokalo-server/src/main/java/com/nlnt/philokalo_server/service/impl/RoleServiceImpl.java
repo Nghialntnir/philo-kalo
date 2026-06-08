@@ -1,5 +1,14 @@
 package com.nlnt.philokalo_server.service.impl;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.nlnt.philokalo_server.dto.request.RoleRequest;
 import com.nlnt.philokalo_server.dto.response.RoleResponse;
 import com.nlnt.philokalo_server.exception.AppException;
@@ -12,16 +21,10 @@ import com.nlnt.philokalo_server.model.RolePermissionPK;
 import com.nlnt.philokalo_server.repository.PermissionRepository;
 import com.nlnt.philokalo_server.repository.RoleRepository;
 import com.nlnt.philokalo_server.service.RoleService;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -56,8 +59,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleResponse updateRole(String roleId, RoleRequest request) {
-        Role role = roleRepository.findById(roleId).orElseThrow(()
-                -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
+        Role role = roleRepository.findById(roleId).orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
         roleMapper.updateRole(role, request);
         roleRepository.save(role);
 
@@ -65,7 +67,8 @@ public class RoleServiceImpl implements RoleService {
             Set<RolePermission> rolePermissions = new HashSet<>();
 
             for (String permissionId : request.getPermissionIds()) {
-                Permission permission = permissionRepository.findById(permissionId)
+                Permission permission = permissionRepository
+                        .findById(permissionId)
                         .orElseThrow(() -> new AppException(ErrorCode.PERMISSION_NOT_EXISTS));
 
                 RolePermissionPK pk = new RolePermissionPK(role.getId(), permissionId);
@@ -86,9 +89,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteRole(String roleId) {
-        Role role = roleRepository.findById(roleId).orElseThrow(()
-                -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
+        Role role = roleRepository.findById(roleId).orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
         roleRepository.delete(role);
     }
-
 }

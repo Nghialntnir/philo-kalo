@@ -1,15 +1,9 @@
 package com.nlnt.philokalo_server.controller;
 
-import com.nlnt.philokalo_server.dto.request.PermissionRequest;
-import com.nlnt.philokalo_server.dto.response.ApiResponse;
-import com.nlnt.philokalo_server.dto.response.PermissionResponse;
-import com.nlnt.philokalo_server.service.PermissionService;
-import jakarta.validation.Valid;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nlnt.philokalo_server.dto.request.PermissionRequest;
+import com.nlnt.philokalo_server.dto.response.ApiResponse;
+import com.nlnt.philokalo_server.dto.response.PermissionResponse;
+import com.nlnt.philokalo_server.service.PermissionService;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -47,8 +51,8 @@ public class PermissionController {
     }
 
     @PatchMapping("/{permissionId}")
-    public ApiResponse<PermissionResponse> updatePermission(@PathVariable String permissionId,
-            @RequestBody PermissionRequest request) {
+    public ApiResponse<PermissionResponse> updatePermission(
+            @PathVariable String permissionId, @RequestBody PermissionRequest request) {
         return ApiResponse.<PermissionResponse>builder()
                 .result(permissionService.updatePermission(permissionId, request))
                 .build();
@@ -61,5 +65,4 @@ public class PermissionController {
                 .message("Permission deleted successfully")
                 .build();
     }
-
 }

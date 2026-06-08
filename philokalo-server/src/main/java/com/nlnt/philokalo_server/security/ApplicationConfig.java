@@ -1,5 +1,12 @@
 package com.nlnt.philokalo_server.security;
 
+import java.util.Set;
+
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.nlnt.philokalo_server.exception.AppException;
 import com.nlnt.philokalo_server.exception.ErrorCode;
 import com.nlnt.philokalo_server.model.Permission;
@@ -12,13 +19,9 @@ import com.nlnt.philokalo_server.model.UserRolePK;
 import com.nlnt.philokalo_server.repository.PermissionRepository;
 import com.nlnt.philokalo_server.repository.RoleRepository;
 import com.nlnt.philokalo_server.repository.UserRepository;
-import java.util.Set;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -39,32 +42,27 @@ public class ApplicationConfig {
         return args -> {
             // 1. Seed Permissions
             if (permissionRepository.findByName("admin").isEmpty()) {
-                permissionRepository.save(
-                        Permission.builder()
-                                .name("admin")
-                                .description("All permission")
-                                .build()
-                );
+                permissionRepository.save(Permission.builder()
+                        .name("admin")
+                        .description("All permission")
+                        .build());
             }
 
             if (permissionRepository.findByName("read-only").isEmpty()) {
-                permissionRepository.save(
-                        Permission.builder()
-                                .name("read-only")
-                                .description("Only view user")
-                                .build()
-                );
+                permissionRepository.save(Permission.builder()
+                        .name("read-only")
+                        .description("Only view user")
+                        .build());
             }
 
             // 2. Seed Roles + gán Permission
             if (roleRepository.findByName("ADMIN").isEmpty()) {
-                Role role = Role.builder()
-                        .name("ADMIN")
-                        .description("Role Admin")
-                        .build();
+                Role role =
+                        Role.builder().name("ADMIN").description("Role Admin").build();
                 roleRepository.save(role);
 
-                Permission permission = permissionRepository.findByName("admin")
+                Permission permission = permissionRepository
+                        .findByName("admin")
                         .orElseThrow(() -> new AppException(ErrorCode.PERMISSION_NOT_EXISTS));
 
                 RolePermission rolePermission = new RolePermission();
@@ -77,13 +75,11 @@ public class ApplicationConfig {
             }
 
             if (roleRepository.findByName("USER").isEmpty()) {
-                Role role = Role.builder()
-                        .name("USER")
-                        .description("Role User")
-                        .build();
+                Role role = Role.builder().name("USER").description("Role User").build();
                 roleRepository.save(role);
 
-                Permission permission = permissionRepository.findByName("read-only")
+                Permission permission = permissionRepository
+                        .findByName("read-only")
                         .orElseThrow(() -> new AppException(ErrorCode.PERMISSION_NOT_EXISTS));
 
                 RolePermission rolePermission = new RolePermission();
@@ -97,7 +93,8 @@ public class ApplicationConfig {
 
             // 3. Seed admin User
             if (userRepository.findByUsername("admin").isEmpty()) {
-                Role adminRole = roleRepository.findByName("ADMIN")
+                Role adminRole = roleRepository
+                        .findByName("ADMIN")
                         .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTS));
 
                 User admin = User.builder()

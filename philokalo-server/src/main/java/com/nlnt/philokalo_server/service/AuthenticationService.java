@@ -1,5 +1,7 @@
 package com.nlnt.philokalo_server.service;
 
+import java.text.ParseException;
+
 import com.nimbusds.jose.JOSEException;
 import com.nlnt.philokalo_server.dto.request.AuthenticationRequest;
 import com.nlnt.philokalo_server.dto.request.IntrospectRequest;
@@ -7,7 +9,6 @@ import com.nlnt.philokalo_server.dto.request.LogoutRequest;
 import com.nlnt.philokalo_server.dto.request.RefreshRequest;
 import com.nlnt.philokalo_server.dto.response.AuthenticationResponse;
 import com.nlnt.philokalo_server.dto.response.IntrospectResponse;
-import java.text.ParseException;
 
 /**
  *
