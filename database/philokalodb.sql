@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS `artwork` (
     `updated_at`      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`artist_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
 );
+-- --------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artwork_image` (
     `id`              char(36) PRIMARY KEY DEFAULT (UUID()),
     `artwork_id`      char(36) NOT NULL,
@@ -98,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `artwork_image` (
     `created_at`      DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (`artwork_id`) REFERENCES `artwork`(`id`) ON DELETE CASCADE
 );
+-- --------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `category` (
     `id`        char(36) PRIMARY KEY DEFAULT (UUID()),
     `name`      varchar(100) UNIQUE NOT NULL,
@@ -105,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `category` (
     `parent_id` char(36) DEFAULT NULL,
     FOREIGN KEY (`parent_id`) REFERENCES `category`(`id`) ON DELETE SET NULL
 );
-
+-- --------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artwork_category` (
     `artwork_id`    char(36) NOT NULL,
     `category_id`  char(36) NOT NULL,
@@ -113,12 +115,13 @@ CREATE TABLE IF NOT EXISTS `artwork_category` (
     FOREIGN KEY (`artwork_id`)   REFERENCES `artwork`(`id`)   ON DELETE CASCADE,
     FOREIGN KEY (`category_id`) REFERENCES `category`(`id`)  ON DELETE CASCADE
 );
+-- --------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tag` (
     `id`    char(36) PRIMARY KEY DEFAULT (UUID()),
     `name`  varchar(50) UNIQUE NOT NULL,
     `slug`  varchar(50) UNIQUE NOT NULL
 );
-
+-- --------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artwork_tag` (
     `artwork_id` char(36) NOT NULL,
     `tag_id`     char(36) NOT NULL,
@@ -126,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `artwork_tag` (
     FOREIGN KEY (`artwork_id`) REFERENCES `artwork`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`tag_id`)     REFERENCES `tag`(`id`)    ON DELETE CASCADE
 );
+-- --------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artwork_like` (
     `user_id`       char(36) NOT NULL,
     `artwork_id`    char(36) NOT NULL,
@@ -134,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `artwork_like` (
     FOREIGN KEY (`user_id`)    REFERENCES `user`(`id`)    ON DELETE CASCADE,
     FOREIGN KEY (`artwork_id`) REFERENCES `artwork`(`id`) ON DELETE CASCADE
 );
-
+-- --------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `artwork_comment` (
     `id`            char(36) PRIMARY KEY DEFAULT (UUID()),
     `artwork_id`    char(36) NOT NULL,
@@ -147,3 +151,4 @@ CREATE TABLE IF NOT EXISTS `artwork_comment` (
     FOREIGN KEY (`user_id`)    REFERENCES `user`(`id`)   ON DELETE CASCADE,
     FOREIGN KEY (`parent_id`)  REFERENCES `artwork_comment`(`id`) ON DELETE SET NULL
 );
+-- --------------------------------------------------------------------------------------------------------------

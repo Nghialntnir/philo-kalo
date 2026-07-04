@@ -7,6 +7,12 @@
     <class>com.nlnt.philokalo_server.model.Role</class>
     <class>com.nlnt.philokalo_server.model.UserRole</class>
     <class>com.nlnt.philokalo_server.model.RolePermission</class>
+    <class>com.nlnt.philokalo_server.model.ArtworkComment</class>
+    <class>com.nlnt.philokalo_server.model.Category</class>
+    <class>com.nlnt.philokalo_server.model.ArtworkImage</class>
+    <class>com.nlnt.philokalo_server.model.ArtworkLike</class>
+    <class>com.nlnt.philokalo_server.model.Tag</class>
+    <class>com.nlnt.philokalo_server.model.Artwork</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/philokalo?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
