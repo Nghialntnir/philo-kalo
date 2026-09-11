@@ -44,6 +44,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserServiceImp implements UserService {
 
+    public static final String DEFAULT_AVATAR_URL =
+            "https://res.cloudinary.com/philokalo-cloud/image/upload/v1780748653/of5wft3j3yvcqucxy13h.png";
+
     UserRepository userRepository;
     RoleRepository roleRepository;
     UserMapper userMapper;
@@ -98,8 +101,8 @@ public class UserServiceImp implements UserService {
 
         User user = userMapper.toUser(request);
         user.setPassword(this.passwordEncoder.encode(request.getPassword()));
-        user.setAvatarUrl(
-                "https://res.cloudinary.com/philokalo-cloud/image/upload/v1780748653/of5wft3j3yvcqucxy13h.png");
+        String avatarUrl = request.getAvatarUrl();
+        user.setAvatarUrl((avatarUrl == null || avatarUrl.isBlank()) ? DEFAULT_AVATAR_URL : avatarUrl);
         userRepository.save(user);
         User asignUser = userRepository
                 .findByUsername(user.getUsername())
