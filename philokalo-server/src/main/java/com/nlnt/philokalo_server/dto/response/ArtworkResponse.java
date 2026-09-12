@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Set;
+import java.util.List;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,6 @@ public class ArtworkResponse {
     Instant updatedAt;
     UserSimpleResponse artist;
     Set<CategorySimpleResponse> categories;
-    Set<ArtworkImageResponse> images;
+    List<ArtworkImageResponse> images;
     Set<ArtworkCommentResponse> comments;
 }

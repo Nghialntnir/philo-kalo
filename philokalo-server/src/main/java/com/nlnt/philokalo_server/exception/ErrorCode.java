@@ -73,7 +73,17 @@ public enum ErrorCode {
     CATEGORY_NAME_REQUIRED(1050, "Category name required", HttpStatus.BAD_REQUEST),
     CATEGORY_NAME_INVALID(1051, "Category name is invalid", HttpStatus.BAD_REQUEST),
     CATEGORY_SLUG_REQUIRED(1052, "Category slug required", HttpStatus.BAD_REQUEST),
-    CATEGORY_SLUG_INVALID(1053, "Category slug is invalid", HttpStatus.BAD_REQUEST);
+    CATEGORY_SLUG_INVALID(1053, "Category slug is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_NOT_FOUND(1060, "Artwork not found", HttpStatus.NOT_FOUND),
+    ARTWORK_FORBIDDEN(1061, "You do not own this artwork", HttpStatus.FORBIDDEN),
+    ARTWORK_IMAGES_REQUIRED(1062, "At least one artwork image is required", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_NOT_FOUND(1063, "Artwork image not found", HttpStatus.NOT_FOUND),
+    ARTWORK_IMAGE_COUNT_INVALID(1064, "Artwork image count must be between 1 and 20", HttpStatus.BAD_REQUEST),
+    ARTWORK_STATUS_INVALID_FOR_SALE(1065, "Artwork sale status and isForSale are inconsistent", HttpStatus.BAD_REQUEST),
+    ARTWORK_PRICE_REQUIRED(1066, "Artwork price must be greater than zero when for sale", HttpStatus.BAD_REQUEST),
+    ARTWORK_PRICE_INVALID_FOR_SALE(1069, "Artwork price is only allowed for artwork offered for sale", HttpStatus.BAD_REQUEST),
+    ARTWORK_CATEGORY_NOT_FOUND(1067, "Artwork category not found", HttpStatus.NOT_FOUND),
+    ARTWORK_UPLOAD_SIGN_FAILED(1068, "Could not create upload authorization", HttpStatus.BAD_REQUEST);
 
     private int code;
     private String message;

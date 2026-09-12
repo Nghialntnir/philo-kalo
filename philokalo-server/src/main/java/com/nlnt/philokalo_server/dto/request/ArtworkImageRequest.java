@@ -18,6 +18,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ArtworkImageRequest {
 
+    String id;
     Boolean isPrimary;
     @NotBlank(message = "ARTWORK_IMAGE_ORIGINAL_URL_REQUIRED")
     String originalUrl;
