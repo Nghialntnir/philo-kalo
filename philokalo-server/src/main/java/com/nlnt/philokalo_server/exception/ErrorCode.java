@@ -48,7 +48,32 @@ public enum ErrorCode {
     FILE_TYPE_NOT_SUPPORTED(1021, "Type not supported", HttpStatus.BAD_REQUEST),
     FILE_TOO_LARGE(1022, "File to large (< 10MB)", HttpStatus.BAD_REQUEST),
     UPLOAD_FAILED(1023, "Upload fail", HttpStatus.BAD_REQUEST),
-    DELETE_FAILED(1024, "Delete fail", HttpStatus.BAD_REQUEST);
+    DELETE_FAILED(1024, "Delete fail", HttpStatus.BAD_REQUEST),
+    // Artwork
+    ARTWORK_TITLE_REQUIRED(1030, "Artwork title required", HttpStatus.BAD_REQUEST),
+    ARTWORK_TITLE_INVALID(1031, "Artwork title is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_DESCRIPTION_INVALID(1032, "Artwork description is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_MEDIUM_INVALID(1033, "Artwork medium is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_STATUS_REQUIRED(1034, "Artwork status required", HttpStatus.BAD_REQUEST),
+    ARTWORK_STATUS_INVALID(1035, "Artwork status is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_PRICE_INVALID(1036, "Artwork price is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_CURRENCY_INVALID(1037, "Artwork currency must contain exactly 3 characters", HttpStatus.BAD_REQUEST),
+    ARTWORK_ID_REQUIRED(1038, "Artwork id required", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_ORIGINAL_URL_REQUIRED(1039, "Original image URL required", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_THUMB_URL_REQUIRED(1040, "Thumbnail image URL required", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_BLUR_HASH_INVALID(1041, "Blur hash is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_WIDTH_INVALID(1042, "Image width is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_HEIGHT_INVALID(1043, "Image height is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_FILE_SIZE_INVALID(1044, "Image file size is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_FORMAT_INVALID(1045, "Image format is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_IMAGE_SORT_ORDER_INVALID(1046, "Image sort order is invalid", HttpStatus.BAD_REQUEST),
+    ARTWORK_COMMENT_CONTENT_REQUIRED(1047, "Comment content required", HttpStatus.BAD_REQUEST),
+    ARTWORK_COMMENT_CONTENT_INVALID(1048, "Comment content is invalid", HttpStatus.BAD_REQUEST),
+    // Category
+    CATEGORY_NAME_REQUIRED(1050, "Category name required", HttpStatus.BAD_REQUEST),
+    CATEGORY_NAME_INVALID(1051, "Category name is invalid", HttpStatus.BAD_REQUEST),
+    CATEGORY_SLUG_REQUIRED(1052, "Category slug required", HttpStatus.BAD_REQUEST),
+    CATEGORY_SLUG_INVALID(1053, "Category slug is invalid", HttpStatus.BAD_REQUEST);
 
     private int code;
     private String message;
