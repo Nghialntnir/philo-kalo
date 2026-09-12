@@ -94,10 +94,6 @@ public class Artwork implements Serializable {
     @Column(name = "currency")
     private String currency;
     @Column(name = "view_count")
-    private Integer viewCount;
-    @Column(name = "like_count")
-    private Integer likeCount;
-    @Column(name = "created_at")
     @CreationTimestamp
     private Date createdAt;
     @Column(name = "updated_at")
