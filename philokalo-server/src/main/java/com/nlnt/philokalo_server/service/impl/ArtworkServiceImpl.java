@@ -106,8 +106,6 @@ public class ArtworkServiceImpl implements ArtworkService {
         Artwork artwork = artworkMapper.toArtwork(request);
         applyBusinessRules(artwork);
         artwork.setArtist(user);
-        artwork.setViewCount(0);
-        artwork.setLikeCount(0);
         if (request.getCategoryIds() != null) {
             artwork.setCategorySet(resolveCategories(request.getCategoryIds()));
         }

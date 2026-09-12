@@ -34,8 +34,6 @@ public interface ArtworkMapper {
     @Mapping(target = "artworkLikeSet", ignore = true)
     @Mapping(target = "artworkImageSet", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "viewCount", ignore = true)
-    @Mapping(target = "likeCount", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     Artwork toArtwork(ArtworkRequest request);
@@ -53,8 +51,6 @@ public interface ArtworkMapper {
     @Mapping(target = "artworkLikeSet", ignore = true)
     @Mapping(target = "artworkImageSet", ignore = true)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "viewCount", ignore = true)
-    @Mapping(target = "likeCount", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     void updateArtwork(@MappingTarget Artwork artwork, ArtworkRequest request);
