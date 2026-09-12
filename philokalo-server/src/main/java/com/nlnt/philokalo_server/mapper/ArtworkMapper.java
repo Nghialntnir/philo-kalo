@@ -2,6 +2,8 @@ package com.nlnt.philokalo_server.mapper;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
@@ -82,11 +84,13 @@ public interface ArtworkMapper {
                 .collect(Collectors.toSet());
     }
 
-    default Set<ArtworkImageResponse> mapImages(Artwork artwork) {
+    default List<ArtworkImageResponse> mapImages(Artwork artwork) {
         if (artwork.getArtworkImageSet() == null) {
-            return new HashSet<>();
+            return List.of();
         }
         return artwork.getArtworkImageSet().stream()
+                .sorted(Comparator.comparing(
+                        image -> image.getSortOrder() == null ? Short.MAX_VALUE : image.getSortOrder()))
                 .map(image -> ArtworkImageResponse.builder()
                         .id(image.getId())
                         .isPrimary(image.getIsPrimary())
@@ -102,7 +106,7 @@ public interface ArtworkMapper {
                         .sortOrder(image.getSortOrder())
                         .createdAt(image.getCreatedAt() == null ? null : image.getCreatedAt().toInstant())
                         .build())
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     default Set<ArtworkCommentResponse> mapComments(Artwork artwork) {

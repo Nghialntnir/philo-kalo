@@ -3,10 +3,12 @@ package com.nlnt.philokalo_server.dto.request;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
+import java.util.List;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -46,4 +48,6 @@ public class ArtworkRequest {
 
     Set<String> categoryIds;
     Set<String> tagIds;
+    @Valid
+    List<ArtworkImageRequest> images;
 }
