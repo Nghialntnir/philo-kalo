@@ -6,4 +6,6 @@ import com.nlnt.philokalo_server.model.ArtworkImage;
 
 public interface ArtworkImageRepository extends JpaRepository<ArtworkImage, String> {
     List<ArtworkImage> findByArtworkId(String artworkId);
+    List<ArtworkImage> findByArtworkIdOrderBySortOrderAsc(String artworkId);
+    List<ArtworkImage> findByArtworkIdAndIsPrimaryTrue(String artworkId);
 }
