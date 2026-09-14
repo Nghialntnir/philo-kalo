@@ -110,7 +110,13 @@ public interface ArtworkMapper {
     }
 
     default Set<ArtworkCommentResponse> mapComments(Artwork artwork) {
-        return mapComments(artwork.getArtworkCommentSet());
+        if (artwork.getArtworkCommentSet() == null) {
+            return new HashSet<>();
+        }
+        Set<ArtworkComment> topLevelComments = artwork.getArtworkCommentSet().stream()
+                .filter(comment -> comment.getParent() == null)
+                .collect(Collectors.toCollection(java.util.LinkedHashSet::new));
+        return mapComments(topLevelComments);
     }
 
     Set<ArtworkCommentResponse> mapComments(Set<ArtworkComment> comments);

@@ -13,5 +13,5 @@ public interface ArtworkRepository extends JpaRepository<Artwork, String> {
     List<Artwork> findByStatusOrderByCreatedAtDesc(String status);
     List<Artwork> findByIsForSaleTrueOrderByCreatedAtDesc();
     List<Artwork> findByArtistIdAndStatusOrderByCreatedAtDesc(String artistId, String status);
-    List<Artwork> findByCategorySetId(String categoryId);
+    List<Artwork> findByCategorySet_Id(String categoryId);
 }

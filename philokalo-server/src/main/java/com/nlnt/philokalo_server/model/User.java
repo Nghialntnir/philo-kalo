@@ -69,11 +69,11 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private Date updatedAt;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<ArtworkComment> artworkCommentSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<ArtworkLike> artworkLikeSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artistId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artist")
     private Set<Artwork> artworkSet;
 
     private static final long serialVersionUID = 1L;
