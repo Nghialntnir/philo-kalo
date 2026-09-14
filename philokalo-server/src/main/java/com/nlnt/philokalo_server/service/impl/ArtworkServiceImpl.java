@@ -223,6 +223,7 @@ public class ArtworkServiceImpl implements ArtworkService {
             }
             if (image == null) {
                 image = new ArtworkImage();
+                image.setId(UUID.randomUUID().toString());
                 image.setArtwork(artwork);
             }
             copyImage(request, image, i, !hasPrimary && i == 0);
@@ -233,6 +234,7 @@ public class ArtworkServiceImpl implements ArtworkService {
 
     private ArtworkImage toImage(ArtworkImageRequest request, Artwork artwork, int index, boolean fallbackPrimary) {
         ArtworkImage image = new ArtworkImage();
+        image.setId(UUID.randomUUID().toString());
         image.setArtwork(artwork);
         copyImage(request, image, index, fallbackPrimary);
         return image;

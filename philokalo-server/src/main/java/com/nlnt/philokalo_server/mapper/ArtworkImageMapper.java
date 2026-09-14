@@ -12,9 +12,15 @@ import com.nlnt.philokalo_server.model.ArtworkImage;
 @Mapper(componentModel = "spring", config = GlobalMapperConfig.class)
 public interface ArtworkImageMapper {
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "artwork", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     ArtworkImage toArtworkImage(ArtworkImageRequest request);
 
     ArtworkImageResponse toArtworkImageResponse(ArtworkImage image);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "artwork", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     void updateArtworkImage(@MappingTarget ArtworkImage image, ArtworkImageRequest request);
 }
